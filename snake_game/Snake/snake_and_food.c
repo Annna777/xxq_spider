@@ -340,7 +340,10 @@ int SnakeMove()
 	{
 		return SNAKE_EATEN_FOOD;
 	}
+<<<<<<< HEAD
 	//根据障碍物状态毁掉障碍或者结束游戏
+=======
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	if (destory_block_by_state() == HIT_BLOCK_DEAD)
 	{
 		return SNAKE_DEAD;
@@ -478,18 +481,27 @@ dirction GetDirction()
 int blocks_init()
 {
 	time_t t;
+<<<<<<< HEAD
 	list_blocks = ListCreate(NULL);
+=======
+	list_blocks = ListCreate(0);
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	srand((unsigned int)(time(&t)*time(&t)));
 	return 0;
 }
 //创建障碍物
+<<<<<<< HEAD
 //LPAUTO_BLOCK create_block(
 void create_block(
+=======
+LPAUTO_BLOCK create_block(
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	int x,
 	int y,
 	double dir,		// 移动时，x相对于y
 	int y_step,	// y方向每个时间周期移动的距离
 	BLOCK_STATE state,
+<<<<<<< HEAD
 	unsigned int power,
 	int ratio_x,	// 在这个范围内击中都有效。
 	int ratio_y		// 在这个范围内击中都有效。
@@ -513,14 +525,40 @@ void create_block(
 
 	//return AUTO_BLOCK;
 	//free(AUTO_BLOCK2);
+=======
+	unsigned int power
+)
+
+{
+	LPAUTO_BLOCK AUTO_BLOCK;
+	AUTO_BLOCK = (LPAUTO_BLOCK)malloc(sizeof(AUTO_BLOCK));
+	if (AUTO_BLOCK == 0)
+		return (LPAUTO_BLOCK)0;
+	AUTO_BLOCK->x = x;
+	AUTO_BLOCK->y = y;
+	AUTO_BLOCK->dir = dir;
+	AUTO_BLOCK->power = power;
+	AUTO_BLOCK->y_step = y_step;
+	AUTO_BLOCK->state = BLOCK_MOVED;
+
+	ListPushBack(list_blocks, AUTO_BLOCK);
+
+	return AUTO_BLOCK;
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 }
 
 //删掉第i个障碍物
 void destory_block_at(unsigned int i)
 {
+<<<<<<< HEAD
 	//LPAUTO_BLOCK blockt = 
 	ListDeleteAt(list_blocks, i);
 	//free(blockt);
+=======
+	//LPAUTO_BLOCK block = 
+	ListDeleteAt(list_blocks, i);
+	//free(block);
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 }
 
 //返回障碍物数
@@ -554,6 +592,7 @@ unsigned int get_block_y(LPAUTO_BLOCK AUTO_BLOCK)
 	return AUTO_BLOCK->y;
 }
 
+<<<<<<< HEAD
 //返回碰撞有效的x范围
 unsigned int get_block_radio_x(LPAUTO_BLOCK AUTO_BLOCK)
 {
@@ -565,6 +604,8 @@ unsigned int get_block_radio_y(LPAUTO_BLOCK AUTO_BLOCK)
 {
 	return AUTO_BLOCK->ratio_y;
 }
+=======
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 //若障碍物飞出去
 void block_out(LPAUTO_BLOCK AUTO_BLOCK)
 {
@@ -580,11 +621,15 @@ void block_hit(LPAUTO_BLOCK AUTO_BLOCK)
 int be_hit(PGAME_COORD snake, LPAUTO_BLOCK block)
 {
 
+<<<<<<< HEAD
 	//if (snake->x == get_block_x(block) && snake ->y == get_block_y(block))
 	 if((get_block_x(block) + get_block_radio_x(block))> (unsigned int)snake->x &&
 		 (get_block_x(block) - get_block_radio_x(block)) < (unsigned int)snake->x &&
 		 (get_block_y(block) + get_block_radio_y(block)) > (unsigned int)snake->y &&
 		 (get_block_y(block) - get_block_radio_y(block)) < (unsigned int)snake->y)
+=======
+	if (snake->x == get_block_x(block) && snake ->y == get_block_y(block))
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	{
 		//block->state = HIT_DEAD;
 		block_hit(block);
@@ -610,8 +655,13 @@ void blocks_move_step()
 	{
 		AUTO_BLOCK = get_block_at(i);
 		block_move(AUTO_BLOCK);
+<<<<<<< HEAD
 		if (get_block_x(AUTO_BLOCK) < (unsigned int)0 || get_block_x(AUTO_BLOCK) > (unsigned int)MAX_X ||
 			get_block_y(AUTO_BLOCK) < (unsigned int)0 || get_block_y(AUTO_BLOCK) > (unsigned int)MAX_Y)
+=======
+		if (get_block_x(AUTO_BLOCK) < 0 || get_block_x(AUTO_BLOCK) > MAX_X ||
+			get_block_y(AUTO_BLOCK) < 0 || get_block_y(AUTO_BLOCK) > MAX_Y)
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 		{
 			block_out(AUTO_BLOCK);
 		}
@@ -644,14 +694,19 @@ again:
 		AUTO_BLOCK = get_block_at(i);
 		if (AUTO_BLOCK->state == HIT_DEAD)
 		{
+<<<<<<< HEAD
 			flag = 1;
 			//return HIT_BLOCK_DEAD ;
+=======
+			return HIT_BLOCK_DEAD ;
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 		}
 		else if (AUTO_BLOCK->state == BLOCK_OUT)
 		{
 
 			destory_block_at(i);
 			goto again;
+<<<<<<< HEAD
 
 		}
 	}
@@ -659,12 +714,22 @@ again:
 		return HIT_BLOCK_DEAD;
 	else
 		return 1;
+=======
+			return 1;
+		}
+		return HIT_BLOCK_DEAD;
+	}
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 }
 
 void gen_block()
 {
+<<<<<<< HEAD
 	//LPAUTO_BLOCK AUTO_BLOCK;
 	//AUTO_BLOCK = 
 	create_block(rand() % MAX_X, rand() % MAX_Y, 0, 1, BLOCK_MOVED, 1, 1, 1);
 	//free(AUTO_BLOCK);
+=======
+	create_block(rand() % MAX_X, rand() % MAX_Y, 0, 1, BLOCK_MOVED, 1);
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 }

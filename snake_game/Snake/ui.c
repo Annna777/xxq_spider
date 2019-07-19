@@ -198,7 +198,10 @@ int WINAPI WinMain(
 
 
 	// 以下进入消息循环。获取消息--翻译消息--分配消息（由窗口的消息处理函数来处理消息）
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	while ((fGotMessage = GetMessage(&msg, (HWND)NULL, 0, 0)) != 0&& fGotMessage != -1)
 	{
 		TranslateMessage(&msg);
@@ -245,7 +248,11 @@ void GamePaint(HWND hwnd)
 	RECT rect;
 	PGAME_COORD pSnakeBody;
 	PGAME_COORD pWallBody;
+<<<<<<< HEAD
 	LPAUTO_BLOCK pBlockBody;
+=======
+	PGAME_COORD pBlockBody;
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	PGAME_COORD lpFood;
 	int i, snake_size,block_size;
 
@@ -345,7 +352,11 @@ void GamePaint(HWND hwnd)
 	block_size = get_blocks_num();
 	for (i = 0; i < block_size; i++)
 	{
+<<<<<<< HEAD
 		pBlockBody = (LPAUTO_BLOCK)get_block_at(i);
+=======
+		pBlockBody = (PGAME_COORD)get_block_at(i);
+>>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 
 		Rectangle(hdcmem,
 			get_block_x(pBlockBody) * CELL_PIXEL + rectBoundary.left,
