@@ -64,10 +64,7 @@ void OnTimer(HWND hwnd)
 	// 计时器到时以后，蛇移动一步。
 	// 根据以后以后的状态，进行后续处理。
 	switch (SnakeMove())
-<<<<<<< HEAD
 
-=======
->>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	{
 	// 如果蛇已经死了
 	case SNAKE_KNOCKBORDER:
@@ -78,7 +75,7 @@ void OnTimer(HWND hwnd)
 		// 首先关闭计时器，避免在计时器的驱动下再次调用本函数
 		KillTimer(hwnd, TIMER_ID);
 		// 然后通知玩家，Game Over了，退出进程。
-		MessageBox(0, "Game Over", "Game Over", 0);
+		MessageBox(0, "Snake Died", "Game Over", 0);
 		ExitProcess(0);
 		break;
 	// 如果蛇吃到了食物
@@ -145,12 +142,8 @@ void OnTimer(HWND hwnd)
 	//障碍物也移动一步
 	blocks_move_step();
 	*/
-<<<<<<< HEAD
 	
 	if (rand() % 1000 < 500) // 7%的概率，随机产生障碍。
-=======
-	if (rand() % 1000 < 500) // 2%的概率，随机产生障碍。
->>>>>>> 0e4b4d2a96e6534591b516fb3ff98e8bf735cd4e
 	{
 		gen_block();
 	}
