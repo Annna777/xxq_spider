@@ -340,6 +340,7 @@ int SnakeMove()
 	{
 		return SNAKE_EATEN_FOOD;
 	}
+	//根据障碍物状态毁掉障碍或者结束游戏
 	if (destory_block_by_state() == HIT_BLOCK_DEAD)
 	{
 		return SNAKE_DEAD;
@@ -477,43 +478,49 @@ dirction GetDirction()
 int blocks_init()
 {
 	time_t t;
-	list_blocks = ListCreate(0);
+	list_blocks = ListCreate(NULL);
 	srand((unsigned int)(time(&t)*time(&t)));
 	return 0;
 }
 //创建障碍物
-LPAUTO_BLOCK create_block(
+//LPAUTO_BLOCK create_block(
+void create_block(
 	int x,
 	int y,
 	double dir,		// 移动时，x相对于y
 	int y_step,	// y方向每个时间周期移动的距离
 	BLOCK_STATE state,
-	unsigned int power
+	unsigned int power,
+	int ratio_x,	// 在这个范围内击中都有效。
+	int ratio_y		// 在这个范围内击中都有效。
 )
 
 {
-	LPAUTO_BLOCK AUTO_BLOCK;
-	AUTO_BLOCK = (LPAUTO_BLOCK)malloc(sizeof(AUTO_BLOCK));
-	if (AUTO_BLOCK == 0)
+	LPAUTO_BLOCK AUTO_BLOCK2;
+	AUTO_BLOCK2 = (LPAUTO_BLOCK)malloc(sizeof(AUTO_BLOCK));
+	if (AUTO_BLOCK2 == 0)
 		return (LPAUTO_BLOCK)0;
-	AUTO_BLOCK->x = x;
-	AUTO_BLOCK->y = y;
-	AUTO_BLOCK->dir = dir;
-	AUTO_BLOCK->power = power;
-	AUTO_BLOCK->y_step = y_step;
-	AUTO_BLOCK->state = BLOCK_MOVED;
+	AUTO_BLOCK2->x = x;
+	AUTO_BLOCK2->y = y;
+	AUTO_BLOCK2->dir = dir;
+	AUTO_BLOCK2->power = power;
+	AUTO_BLOCK2->y_step = y_step;
+	AUTO_BLOCK2->state = BLOCK_MOVED;
+	AUTO_BLOCK2->ratio_x = ratio_x;
+	AUTO_BLOCK2->ratio_y = ratio_y;
 
-	ListPushBack(list_blocks, AUTO_BLOCK);
+	ListPushBack(list_blocks, AUTO_BLOCK2);
 
-	return AUTO_BLOCK;
+	//return AUTO_BLOCK;
+	//free(AUTO_BLOCK2);
 }
 
 //删掉第i个障碍物
 void destory_block_at(unsigned int i)
 {
-	//LPAUTO_BLOCK block = 
+	//LPAUTO_BLOCK blockt = 
 	ListDeleteAt(list_blocks, i);
-	//free(block);
+	//free(blockt);
 }
 
 //返回障碍物数
@@ -547,6 +554,17 @@ unsigned int get_block_y(LPAUTO_BLOCK AUTO_BLOCK)
 	return AUTO_BLOCK->y;
 }
 
+//返回碰撞有效的x范围
+unsigned int get_block_radio_x(LPAUTO_BLOCK AUTO_BLOCK)
+{
+	return AUTO_BLOCK->ratio_x;
+}
+
+//返回碰撞有效的y范围
+unsigned int get_block_radio_y(LPAUTO_BLOCK AUTO_BLOCK)
+{
+	return AUTO_BLOCK->ratio_y;
+}
 //若障碍物飞出去
 void block_out(LPAUTO_BLOCK AUTO_BLOCK)
 {
@@ -562,7 +580,11 @@ void block_hit(LPAUTO_BLOCK AUTO_BLOCK)
 int be_hit(PGAME_COORD snake, LPAUTO_BLOCK block)
 {
 
-	if (snake->x == get_block_x(block) && snake ->y == get_block_y(block))
+	//if (snake->x == get_block_x(block) && snake ->y == get_block_y(block))
+	 if((get_block_x(block) + get_block_radio_x(block))> (unsigned int)snake->x &&
+		 (get_block_x(block) - get_block_radio_x(block)) < (unsigned int)snake->x &&
+		 (get_block_y(block) + get_block_radio_y(block)) > (unsigned int)snake->y &&
+		 (get_block_y(block) - get_block_radio_y(block)) < (unsigned int)snake->y)
 	{
 		//block->state = HIT_DEAD;
 		block_hit(block);
@@ -588,8 +610,8 @@ void blocks_move_step()
 	{
 		AUTO_BLOCK = get_block_at(i);
 		block_move(AUTO_BLOCK);
-		if (get_block_x(AUTO_BLOCK) < 0 || get_block_x(AUTO_BLOCK) > MAX_X ||
-			get_block_y(AUTO_BLOCK) < 0 || get_block_y(AUTO_BLOCK) > MAX_Y)
+		if (get_block_x(AUTO_BLOCK) < (unsigned int)0 || get_block_x(AUTO_BLOCK) > (unsigned int)MAX_X ||
+			get_block_y(AUTO_BLOCK) < (unsigned int)0 || get_block_y(AUTO_BLOCK) > (unsigned int)MAX_Y)
 		{
 			block_out(AUTO_BLOCK);
 		}
@@ -630,6 +652,7 @@ again:
 
 			destory_block_at(i);
 			goto again;
+
 		}
 	}
 	if (flag)
@@ -640,5 +663,8 @@ again:
 
 void gen_block()
 {
-	create_block(rand() % MAX_X, rand() % MAX_Y, 0, 1, BLOCK_MOVED, 1);
+	//LPAUTO_BLOCK AUTO_BLOCK;
+	//AUTO_BLOCK = 
+	create_block(rand() % MAX_X, rand() % MAX_Y, 0, 1, BLOCK_MOVED, 1, 1, 1);
+	//free(AUTO_BLOCK);
 }

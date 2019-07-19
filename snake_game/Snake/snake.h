@@ -133,21 +133,26 @@ typedef struct _AUTO_BLOCK
 	int y_step;				// y方向每个时间周期移动的距离
 	BLOCK_STATE state;
 	unsigned int power;
+	int ratio_x;		// 在这个范围内击中都有效。
+	int ratio_y;		// 在这个范围内击中都有效。
 }AUTO_BLOCK, *LPAUTO_BLOCK;
 
-LPAUTO_BLOCK create_block(
+//LPAUTO_BLOCK create_block(
+void create_block(
 	int x,
 	int y,
 	double dir,		// 移动时，x相对于y
 	int y_step,	// y方向每个时间周期移动的距离
 	BLOCK_STATE state,
-	unsigned int power
+	unsigned int power,
+	int ratio_x,	// 在这个范围内击中都有效。
+	int ratio_y
 );
 
 #define MAX_X		50// 游戏界面大小
 #define MAX_Y		25//戏界面大小
 
-//#define gen_block()			create_block(rand()%MAX_X, rand()%MAX_Y, 0,1,BLOCK_MOVED,1)
+//#define gen_block()			create_block(rand()%MAX_X, rand()%MAX_Y, 0,0.2,BLOCK_MOVED,1)
 void gen_block();
 int blocks_init();
 void destory_block_at(unsigned int i);
